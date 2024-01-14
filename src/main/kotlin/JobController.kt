@@ -6,22 +6,34 @@ class JobController {
         jobList = ArrayList()
     }
     fun addJob(job: Job) {
-        jobList.add(job);
-        println("Job Added")
-    }
-    fun printAllJob() {
-        if (jobList.isEmpty()) {
-            println("No jobs in list")
+        if(jobList.none({it.getJobId() === job.getJobId()})) {
+            jobList.add(job);
+            println("Job Added")
         } else {
-            println("Your current jobs: ")
-            println(jobList);
+            println("Job ID ${job.getJobId()} already exist")
         }
     }
 
     fun deleteJobById(jobId: Int) {
-        val iterator: Iterator<Job> = jobList.iterator();
+        val iterator = jobList.iterator()
         while(iterator.hasNext()) {
-            Job job =   
+            val job: Job = iterator.next()
+            if (job.getJobId() == jobId) {
+                iterator.remove();
+                println("Job ${jobId} deleted.")
+                return;
+            }
+        }
+        println("Job ${jobId} not found.")
+    }
+
+    fun printAllJob() {
+        if (jobList.isEmpty()) {
+            println("No jobs in list")
+        } else {
+            for (job in jobList) {
+                println(job)
+            }
         }
     }
 }
